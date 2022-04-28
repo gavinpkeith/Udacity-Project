@@ -8,7 +8,7 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
 
-songplay_table_create = ("CREATE TABLE IF NOT EXISTS songplays (songplay_id int, start_time int, user_id int, level varchar, song_id varchar, artist_id varchar, session_id int, location varchar, user_agent int)")
+songplay_table_create = ("CREATE TABLE IF NOT EXISTS songplays (songplay_id serial, start_time int, user_id int, level varchar, song_id varchar, artist_id varchar, session_id int, location varchar, user_agent int)")
 
 user_table_create = ("CREATE TABLE IF NOT EXISTS users (user_id int, first_name varchar, last_name varchar, gender varchar, level varchar)")
 
@@ -21,7 +21,7 @@ time_table_create = ("CREATE TABLE IF NOT EXISTS time (start_time varchar, hour 
 # INSERT RECORDS
 
 songplay_table_insert = ("""
-INSERT INTO songplays (songplay_id, start_time, user_id, level, song_id, artist_id, session_id, location, user_agent) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent) values (%s, %s, %s, %s, %s, %s, %s, %s)
 """)
 
 user_table_insert = ("""
@@ -29,7 +29,7 @@ INSERT INTO users (user_id, first_name, last_name, gender, level) values (%s, %s
 """)
 
 song_table_insert = ("""
-INSERT INTO songs (song_id, title, artist_id, year, duration ) values (%s, %s, %s, %s, %s)
+INSERT INTO songs (song_id, title, artist_id, year, duration) values (%s, %s, %s, %s, %s)
 """)
 
 

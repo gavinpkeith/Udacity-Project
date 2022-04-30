@@ -81,7 +81,7 @@ last_name,
 gender, 
 level) 
 values (%s, %s, %s, %s, %s)
-ON CONFLICT (user_id) DO NOTHING;
+ON CONFLICT(user_id) DO UPDATE SET level = excluded.level;
 """)
 
 song_table_insert = ("""

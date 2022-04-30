@@ -9,7 +9,7 @@ def process_song_file(cur, filepath):
     df = pd.read_json(filepath, lines=True)
 
     # insert song record
-    song_data = df.values()
+    song_data = df.values
     song_data = song_data.tolist()
     song_data_list = []
     song_data_list.append((song_data[0][7]))
@@ -28,7 +28,7 @@ def process_song_file(cur, filepath):
     artist_data_list.append((artist_data[0][2]))
     artist_data_list.append((artist_data[0][1]))
     artist_data_list.append((artist_data[0][3]))
-    cur.execute(artist_table_insert, artist_data)
+    cur.execute(artist_table_insert, artist_data_list)
 
 
 def process_log_file(cur, filepath):
@@ -43,6 +43,7 @@ def process_log_file(cur, filepath):
     
     # insert time data records
     time_data = t
+    start_time = t
     hour = time_data.dt.hour
     day = time_data.dt.day
     week = time_data.dt.week
@@ -51,6 +52,7 @@ def process_log_file(cur, filepath):
     weekday = time_data.dt.weekday
     column_labels = ['start_time', 'hour', 'day', 'week', 'month', 'year', 'weekday']
     time_df = {"start_time": start_time, "hour": hour, "day": day, "week": week, "month": month, "year": year, "weekday": weekday}
+    time_df = pd.DataFrame(time_df)
 
     for i, row in time_df.iterrows():
         cur.execute(time_table_insert, list(row))

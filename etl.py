@@ -4,11 +4,13 @@ import psycopg2
 import pandas as pd
 from sql_queries import *
 
+#this function will process the song files, parse the data into dataframes, and insert them into the appropriate tables. This function processes the Song data and Artist data.
+#This function requires a current connection to a database, and a filepath variable to the song data .json files. 
 def process_song_file(cur, filepath):
-    # open song file
+    # this opens the file found at the filpath and reads it into a dataframe
     df = pd.read_json(filepath, lines=True)
 
-    # insert song record
+    # this processes the dataframe into it's values, converts it to a list, and pulls the neccessary data out of the dataframe and inserts it into the table.
     song_data = df.values
     song_data = song_data.tolist()
     song_data_list = []
@@ -19,7 +21,7 @@ def process_song_file(cur, filepath):
     song_data_list.append((song_data[0][5]))
     cur.execute(song_table_insert, song_data_list)
     
-    # insert artist record
+    # this does the same as the code above except for the artist table.
     artist_data = df.values
     artist_data = artist_data.tolist()
     artist_data_list = []
@@ -31,6 +33,7 @@ def process_song_file(cur, filepath):
     cur.execute(artist_table_insert, artist_data_list)
 
 
+#This function will process the log files using the current connection to the database and the filpath to the log files. It creates a dataframe from the .json file, parses it into required columns and values, and inserts it into their respective tables.
 def process_log_file(cur, filepath):
     # open log file
     df = pd.read_json(filepath, lines=True)
@@ -41,7 +44,7 @@ def process_log_file(cur, filepath):
     # convert timestamp column to datetime
     t = pd.to_datetime(df['ts'])
     
-    # insert time data records
+    # This converts individual columns to specific datetime variables. Creates a list of column labels, and creates the final dictionary of column labels and datetime columnns. Then inserts into the appropriate table.
     time_data = t
     start_time = t
     hour = time_data.dt.hour
@@ -57,7 +60,7 @@ def process_log_file(cur, filepath):
     for i, row in time_df.iterrows():
         cur.execute(time_table_insert, list(row))
 
-    # load user table
+    # loads user table from the dataframe
     user_df = df.copy()
     user_df.drop(['artist', 'auth', 'itemInSession', 'length', 'location', 'method', 'page', 'registration', 'sessionId', 'song', 'status', 'ts', 'userAgent'], axis=1, inplace=True)
     user_df = user_df[['userId', 'firstName', 'lastName', 'gender', 'level']]

@@ -3,11 +3,12 @@ import glob
 import psycopg2
 import pandas as pd
 from sql_queries import *
+
+def process_song_file(cur, filepath):
 """
 this function will process the song files, parse the data into dataframes, and insert them into the appropriate tables. This function processes the Song data and Artist data.
 This function requires a current connection to a database, and a filepath variable to the song data .json files. 
 """
-def process_song_file(cur, filepath):
     # this opens the file found at the filpath and reads it into a dataframe
     df = pd.read_json(filepath, lines=True)
 
@@ -33,10 +34,11 @@ def process_song_file(cur, filepath):
     artist_data_list.append((artist_data[0][3]))
     cur.execute(artist_table_insert, artist_data_list)
 
+
+def process_log_file(cur, filepath):
 """
 This function will process the log files using the current connection to the database and the filpath to the log files. It creates a dataframe from the .json file, parses it into required columns and values, and inserts it into their respective tables.
 """
-def process_log_file(cur, filepath):
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -89,6 +91,10 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+"""
+This function walks through the file directories to access files. It takes the files it finds and passes them onto the other functions found above. 
+It's required inputs are the database, connection, filepath of where to look, and which function to pass the files to.
+"""
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):

@@ -5,10 +5,10 @@ import pandas as pd
 from sql_queries import *
 
 def process_song_file(cur, filepath):
-"""
-this function will process the song files, parse the data into dataframes, and insert them into the appropriate tables. This function processes the Song data and Artist data.
-This function requires a current connection to a database, and a filepath variable to the song data .json files. 
-"""
+    """
+    This function will process the song files, parse the data into dataframes, and insert them into the appropriate tables. This function processes the Song data and Artist data.
+    This function requires a current connection to a database, and a filepath variable to the song data .json files. 
+    """
     # this opens the file found at the filpath and reads it into a dataframe
     df = pd.read_json(filepath, lines=True)
 
@@ -36,9 +36,9 @@ This function requires a current connection to a database, and a filepath variab
 
 
 def process_log_file(cur, filepath):
-"""
-This function will process the log files using the current connection to the database and the filpath to the log files. It creates a dataframe from the .json file, parses it into required columns and values, and inserts it into their respective tables.
-"""
+    """
+    This function will process the log files using the current connection to the database and the filpath to the log files. It creates a dataframe from the .json file, parses it into required columns and values, and inserts it into their respective tables.
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -91,10 +91,10 @@ This function will process the log files using the current connection to the dat
 
 
 def process_data(cur, conn, filepath, func):
-"""
-This function walks through the file directories to access files. It takes the files it finds and passes them onto the other functions found above. 
-It's required inputs are the database, connection, filepath of where to look, and which function to pass the files to.
-"""
+    """
+    This function walks through the file directories to access files. It takes the files it finds and passes them onto the other functions found above. 
+    It's required inputs are the database, connection, filepath of where to look, and which function to pass the files to.
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
